@@ -3,11 +3,9 @@
 #include <avr/io.h>
 #include <stdlib.h>
 #include <stdio.h>
-
-
-
+#include <util/delay.h>
 #define BAUD 115200
-#define MYUBRR F_CPU/16/BAUD-1
+#define MYUBRR 5
 void USART_Init( unsigned int myubrr ){
 	//Set baud rate
 	UCSRC = 0;
@@ -29,14 +27,22 @@ void USART_Transmit( unsigned char data )
 	UDR = data;
 }
 
+unsigned char USART_Receive()
+{
+	while ((UCSRA & (1 << RXC)) == 0);/* Wait till data is received */
+	return(UDR);		/* Return the byte */
+}
+
 int main(void)
 {
-	char c = 'a';
+	char c = 'a', x;
 	USART_Init(MYUBRR);
     /* Replace with your application code */
     while (1) 
     {
-		USART_Transmit(c);
+		USART_Transmit('A');
+		_delay_ms(100);
+		/* x = USART_Receive(); */
     }
 }
 
