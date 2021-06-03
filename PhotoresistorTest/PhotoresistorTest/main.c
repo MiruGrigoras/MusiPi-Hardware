@@ -30,37 +30,46 @@ void ADCInitialisation(){
 	
 	//alternative fancy la ce am scris in ultimele 3 randuri de mai sus:
 	
-	ADCSRA &= (0<<ADPS0);
-	ADCSRA |= (1<<ADEN) | (1<<ADPS2) | (1<<ADPS1);
-	ADMUX &= (0<<REFS1);
-	ADMUX |= (1<<REFS0);
+	ADCSRA = 0;
+	ADCSRA = (1<<ADEN) | (1<<ADPS2) | (1<<ADPS1);
+//	ADMUX = 0;
+//	ADMUX |= (1<<REFS0);
 }
 
 uint16_t getLightLevel(uint8_t channel){
+	uint8_t adc_hi;
+	uint8_t adc_lo;
+	uint16_t result = 0;
 	//setez canalul de pe care sa citesc
-	ADMUX |= (channel & 0x1f);		//compar channel-ul cu 00011111 ca sa ma asigur ca iau bitii corecti din channel
+	ADMUX = (1 << REFS0) | (channel & 0x1f);		//compar channel-ul cu 00011111 ca sa ma asigur ca iau bitii corecti din channel
 						
 	ADCSRA |= (1<<ADSC);			//: ADC start conversion, alternativa la ADSC = 1;
 	
 	while(ADCSRA & (1<<ADSC));		//ADSC devine 0 la finalul conversiei, desi putem folosi si ca ADIF sa fie 1 (sa se intrerupa conversia)
 	
-	_delay_ms(10);
-	return(ADC);
+	//_delay_ms(10);
+	adc_lo = ADCL;
+	adc_hi = ADCH;
+	result = ((uint16_t)adc_hi << 8) | adc_lo;
+	return(result);
 }
 
 int main(void)
 {
-	printf("U ok?");
+	uint8_t channelLeft = 0x00;
+	uint8_t channelRight = 0x01;
+	uint16_t lightLevelLeft;
+	uint16_t lightLevelRight;
     ADCInitialisation();
     while (1) 
     {
-		uint8_t channelLeft = 0x00;
-		uint8_t channelRight = 0x01;
+		channelLeft = 0x00;
+		channelRight = 0x01;
 		
-		uint16_t lightLevelLeft = getLightLevel(channelLeft);
-		uint16_t lightLevelRight = getLightLevel(channelRight);
+		lightLevelLeft = getLightLevel(channelLeft);
+		lightLevelRight = getLightLevel(channelRight);
 		
-		printf("Left: %d   -   Right: %d\n", lightLevelLeft, lightLevelRight);
+	
     }
 	return 0;
 }
