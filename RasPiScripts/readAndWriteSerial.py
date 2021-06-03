@@ -14,7 +14,7 @@ counter = 0
 while 1:
     w = 'c'
     ser.write(w.encode())
-    time.sleep(0.1)
+    time.sleep(0.1) 
     counter += 1
     r = ser.read()
     print(r)
