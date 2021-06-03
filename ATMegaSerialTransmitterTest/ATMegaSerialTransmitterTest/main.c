@@ -40,9 +40,10 @@ int main(void)
     /* Replace with your application code */
     while (1) 
     {
-		USART_Transmit('A');
-		_delay_ms(100);
-		/* x = USART_Receive(); */
+		
+		x = USART_Receive();
+		x = x + 5;
+		USART_Transmit(++x);
     }
 }
 
