@@ -24,7 +24,7 @@ else:
     cur = cnx.cursor()
     cur.execute('SELECT * FROM doors;')
     for row in cur.fetchall():
-        print(row[0])
+        print(row[3])
 finally:
     if cur:
         cur.close()

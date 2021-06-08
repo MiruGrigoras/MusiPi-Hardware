@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 import time
 import serial
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(17, GPIO.OUT)
+GPIO.setup(27, GPIO.OUT)
 
 ser = serial.Serial(
     port = '/dev/ttyS0',
@@ -11,11 +15,24 @@ ser = serial.Serial(
     timeout = 1
 )
 counter = 0
-while 1:
-    w = 'c'
-    ser.write(w.encode())
-    time.sleep(0.1) 
-    counter += 1
-    r = ser.read()
-    print(r)
-    time.sleep(0.1) 
+try:
+    while 1:
+        if counter < 10:
+            print('1:')
+            GPIO.output(17, 0)
+            GPIO.output(27, 0)
+        else:
+            print('2:')
+            GPIO.output(17, 0)
+            GPIO.output(27, 1)
+        w = chr(ord('a')+counter)
+        ser.write(w.encode())
+        time.sleep(0.5) 
+        counter += 1
+        r = ser.read()
+        print(r)
+        time.sleep(0.5)
+        if counter ==20:
+            counter=0
+except KeyboardInterrupt:
+    GPIO.cleanup()
