@@ -41,19 +41,20 @@ def ConvertToBinary(decNo):
         raise RoomsNumberNotSupported
 
 conn = cursor = None
-try:
-    conn = mysql.connector.connect(**config)
-    
-except mysql.connector.Error as err:
-    if err.errno == errorcode.ER_BAD_DB_ERROR:
-        print('The required database does not exist')
-    elif err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-        print('The access has been denied')
+while(1):
+    try:
+        conn = mysql.connector.connect(**config)
+        
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_BAD_DB_ERROR:
+            print('The required database does not exist')
+        elif err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print('The access has been denied')
+        else:
+            print('Error: ', err)
     else:
-        print('Error: ', err)
-else:
-    doorsList = []
-    while(1):
+        doorsList = []
+        #while(1):
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM doors;")
         doorsList = list(cursor.fetchall())
@@ -99,9 +100,9 @@ else:
             except RoomIdNotExisting:
                 print('Requested room id cannot be found in the database.')
         time.sleep(0.1)            
-       
-finally:
-    if cursor:
-        cursor.close()
-    if conn:
-        conn.close()
+           
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
