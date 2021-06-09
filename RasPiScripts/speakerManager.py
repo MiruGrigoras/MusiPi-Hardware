@@ -35,6 +35,9 @@ class RoomIdNotExisting(Exception):
 class NonDefinedRoomResponse(Exception):
     pass
 
+class NonDefinedRoomStatus(Exception):
+    pass
+
 def ConvertToBinary(decNo):
     if decNo < 4:
         print("{} = {},{}".format(decNo, decNo //2, decNo%2))
@@ -96,6 +99,8 @@ while(1):
                     #send 'c' for closing the speaker
                     charToSend = 'c'
                     serialConnection.write(charToSend.encode())
+                else:
+                    raise NonDefinedRoomStatus
                 charReceived = serialConnection.read()
                 #I should be receiving 'k' for ok
                 print(charReceived)
@@ -107,6 +112,8 @@ while(1):
                 print('The physical system does not support more than 4 rooms. Please purchase additional equipment for an upgrade.')
             except RoomIdNotExisting:
                 print('Requested room id cannot be found in the database.')
+            except NonDefinedRoomStatus:
+                print('The database defined room status is invalid.')
             except NonDefinedRoomResponse:
                 print('The room circuit has answered with an undefined response.')
         time.sleep(0.1)            
