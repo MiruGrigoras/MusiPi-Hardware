@@ -32,6 +32,9 @@ class RoomsNumberNotSupported(Exception):
 class RoomIdNotExisting(Exception):
     pass
 
+class NonDefinedRoomResponse(Exception):
+    pass
+
 def ConvertToBinary(decNo):
     if decNo < 4:
         print("{} = {},{}".format(decNo, decNo //2, decNo%2))
@@ -78,6 +81,8 @@ while(1):
                     cursor.execute("UPDATE rooms SET rooms.people = rooms.people - 1 WHERE rooms.id = {}".format(door[1]))
                     cursor.execute("UPDATE rooms SET rooms.people = rooms.people + 1 WHERE rooms.id = {}".format(door[2]))
                     conn.commit()
+                else:
+                    raise NonDefinedRoomResponse
                 cursor.execute("SELECT active FROM rooms WHERE rooms.id = {}".format(door[1]))
                 currentRoom = cursor.fetchall()
                 if cursor.rowcount == 0:
@@ -95,10 +100,15 @@ while(1):
                 #I should be receiving 'k' for ok
                 print(charReceived)
                 
+                if charReceived != b'k':
+                    raise NonDefinedRoomResponse
+                
             except RoomsNumberNotSupported:
                 print('The physical system does not support more than 4 rooms. Please purchase additional equipment for an upgrade.')
             except RoomIdNotExisting:
                 print('Requested room id cannot be found in the database.')
+            except NonDefinedRoomResponse:
+                print('The room circuit has answered with an undefined response.')
         time.sleep(0.1)            
            
     finally:
