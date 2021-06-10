@@ -3,29 +3,29 @@ PhotoresistorTest.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000166  00000000  00000000  00000054  2**1
+  0 .text         0000021e  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000001ba  2**0
+  1 .data         00000000  00800060  00800060  00000272  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  000001ba  2**0
+  2 .comment      00000030  00000000  00000000  00000272  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001ec  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002a4  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000038  00000000  00000000  00000228  2**0
+  4 .debug_aranges 00000030  00000000  00000000  000002e0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000006e7  00000000  00000000  00000260  2**0
+  5 .debug_info   0000070c  00000000  00000000  00000310  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000005be  00000000  00000000  00000947  2**0
+  6 .debug_abbrev 000005cc  00000000  00000000  00000a1c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000199  00000000  00000000  00000f05  2**0
+  7 .debug_line   00000323  00000000  00000000  00000fe8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000a0  00000000  00000000  000010a0  2**2
+  8 .debug_frame  00000074  00000000  00000000  0000130c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000003a9  00000000  00000000  00001140  2**0
+  9 .debug_str    000003dd  00000000  00000000  00001380  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000012b  00000000  00000000  000014e9  2**0
+ 10 .debug_loc    000000ca  00000000  00000000  0000175d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000028  00000000  00000000  00001614  2**0
+ 11 .debug_ranges 00000020  00000000  00000000  00001827  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -61,16 +61,16 @@ Disassembly of section .text:
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
   60:	0e 94 90 00 	call	0x120	; 0x120 <main>
-  64:	0c 94 b1 00 	jmp	0x162	; 0x162 <_exit>
+  64:	0c 94 0d 01 	jmp	0x21a	; 0x21a <_exit>
 
 00000068 <__bad_interrupt>:
   68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 0000006c <ADCInitialisation>:
 
-int map(int receivedValue, int inMin, int inMax, int outMin, int outMax){
-	return (receivedValue - inMin) * (outMax - outMin)/(inMax - inMin) + outMin;
-}
+typedef enum {true, false} bool;
+
+//https://www.electronicwings.com/avr-atmega/atmega1632-adc
 
 void ADCInitialisation(){
   6c:	cf 93       	push	r28
@@ -203,53 +203,166 @@ int main(void)
  122:	df 93       	push	r29
  124:	cd b7       	in	r28, 0x3d	; 61
  126:	de b7       	in	r29, 0x3e	; 62
- 128:	28 97       	sbiw	r28, 0x08	; 8
+ 128:	2d 97       	sbiw	r28, 0x0d	; 13
  12a:	0f b6       	in	r0, 0x3f	; 63
  12c:	f8 94       	cli
  12e:	de bf       	out	0x3e, r29	; 62
  130:	0f be       	out	0x3f, r0	; 63
  132:	cd bf       	out	0x3d, r28	; 61
-//	printf("U ok?");
 	uint8_t channelLeft = 0x00;
- 134:	19 82       	std	Y+1, r1	; 0x01
+ 134:	1f 82       	std	Y+7, r1	; 0x07
 	uint8_t channelRight = 0x01;
  136:	81 e0       	ldi	r24, 0x01	; 1
- 138:	8a 83       	std	Y+2, r24	; 0x02
-	uint16_t lightLevelLeft;
-	uint16_t lightLevelRight;
-    ADCInitialisation();
- 13a:	0e 94 36 00 	call	0x6c	; 0x6c <ADCInitialisation>
+ 138:	88 87       	std	Y+8, r24	; 0x08
+	uint16_t lightLevelLeft = 0;
+ 13a:	1a 86       	std	Y+10, r1	; 0x0a
+ 13c:	19 86       	std	Y+9, r1	; 0x09
+	uint16_t oldLightLevelLeft = 0;
+ 13e:	1a 82       	std	Y+2, r1	; 0x02
+ 140:	19 82       	std	Y+1, r1	; 0x01
+	uint16_t lightLevelRight = 0;
+ 142:	1c 86       	std	Y+12, r1	; 0x0c
+ 144:	1b 86       	std	Y+11, r1	; 0x0b
+    uint16_t oldLightLevelRight = 0;
+ 146:	1c 82       	std	Y+4, r1	; 0x04
+ 148:	1b 82       	std	Y+3, r1	; 0x03
+	bool  changeLeft = false, changeRight = false;
+ 14a:	81 e0       	ldi	r24, 0x01	; 1
+ 14c:	8d 83       	std	Y+5, r24	; 0x05
+ 14e:	81 e0       	ldi	r24, 0x01	; 1
+ 150:	8e 83       	std	Y+6, r24	; 0x06
+	uint8_t direction = 0; // 1 for left -> right; 2 for right -> left
+ 152:	1d 86       	std	Y+13, r1	; 0x0d
+	ADCInitialisation();
+ 154:	0e 94 36 00 	call	0x6c	; 0x6c <ADCInitialisation>
     while (1) 
     {
 		channelLeft = 0x00;
- 13e:	19 82       	std	Y+1, r1	; 0x01
+ 158:	1f 82       	std	Y+7, r1	; 0x07
 		channelRight = 0x01;
- 140:	81 e0       	ldi	r24, 0x01	; 1
- 142:	8a 83       	std	Y+2, r24	; 0x02
+ 15a:	81 e0       	ldi	r24, 0x01	; 1
+ 15c:	88 87       	std	Y+8, r24	; 0x08
 		
 		lightLevelLeft = getLightLevel(channelLeft);
- 144:	89 81       	ldd	r24, Y+1	; 0x01
- 146:	0e 94 4b 00 	call	0x96	; 0x96 <getLightLevel>
- 14a:	9c 83       	std	Y+4, r25	; 0x04
- 14c:	8b 83       	std	Y+3, r24	; 0x03
+ 15e:	8f 81       	ldd	r24, Y+7	; 0x07
+ 160:	0e 94 4b 00 	call	0x96	; 0x96 <getLightLevel>
+ 164:	9a 87       	std	Y+10, r25	; 0x0a
+ 166:	89 87       	std	Y+9, r24	; 0x09
 		lightLevelRight = getLightLevel(channelRight);
- 14e:	8a 81       	ldd	r24, Y+2	; 0x02
- 150:	0e 94 4b 00 	call	0x96	; 0x96 <getLightLevel>
- 154:	9e 83       	std	Y+6, r25	; 0x06
- 156:	8d 83       	std	Y+5, r24	; 0x05
+ 168:	88 85       	ldd	r24, Y+8	; 0x08
+ 16a:	0e 94 4b 00 	call	0x96	; 0x96 <getLightLevel>
+ 16e:	9c 87       	std	Y+12, r25	; 0x0c
+ 170:	8b 87       	std	Y+11, r24	; 0x0b
 		
+		if(abs(lightLevelLeft - oldLightLevelLeft) >= 150 && oldLightLevelLeft != 0)
+ 172:	29 85       	ldd	r18, Y+9	; 0x09
+ 174:	3a 85       	ldd	r19, Y+10	; 0x0a
+ 176:	89 81       	ldd	r24, Y+1	; 0x01
+ 178:	9a 81       	ldd	r25, Y+2	; 0x02
+ 17a:	a9 01       	movw	r20, r18
+ 17c:	48 1b       	sub	r20, r24
+ 17e:	59 0b       	sbc	r21, r25
+ 180:	ca 01       	movw	r24, r20
+ 182:	99 23       	and	r25, r25
+ 184:	1c f4       	brge	.+6      	; 0x18c <main+0x6c>
+ 186:	91 95       	neg	r25
+ 188:	81 95       	neg	r24
+ 18a:	91 09       	sbc	r25, r1
+ 18c:	86 39       	cpi	r24, 0x96	; 150
+ 18e:	91 05       	cpc	r25, r1
+ 190:	2c f0       	brlt	.+10     	; 0x19c <main+0x7c>
+ 192:	89 81       	ldd	r24, Y+1	; 0x01
+ 194:	9a 81       	ldd	r25, Y+2	; 0x02
+ 196:	89 2b       	or	r24, r25
+ 198:	09 f0       	breq	.+2      	; 0x19c <main+0x7c>
+			changeLeft = true;
+ 19a:	1d 82       	std	Y+5, r1	; 0x05
+		if(abs(lightLevelRight - oldLightLevelRight) >= 150 && oldLightLevelRight != 0)
+ 19c:	2b 85       	ldd	r18, Y+11	; 0x0b
+ 19e:	3c 85       	ldd	r19, Y+12	; 0x0c
+ 1a0:	8b 81       	ldd	r24, Y+3	; 0x03
+ 1a2:	9c 81       	ldd	r25, Y+4	; 0x04
+ 1a4:	a9 01       	movw	r20, r18
+ 1a6:	48 1b       	sub	r20, r24
+ 1a8:	59 0b       	sbc	r21, r25
+ 1aa:	ca 01       	movw	r24, r20
+ 1ac:	99 23       	and	r25, r25
+ 1ae:	1c f4       	brge	.+6      	; 0x1b6 <main+0x96>
+ 1b0:	91 95       	neg	r25
+ 1b2:	81 95       	neg	r24
+ 1b4:	91 09       	sbc	r25, r1
+ 1b6:	86 39       	cpi	r24, 0x96	; 150
+ 1b8:	91 05       	cpc	r25, r1
+ 1ba:	2c f0       	brlt	.+10     	; 0x1c6 <main+0xa6>
+ 1bc:	8b 81       	ldd	r24, Y+3	; 0x03
+ 1be:	9c 81       	ldd	r25, Y+4	; 0x04
+ 1c0:	89 2b       	or	r24, r25
+ 1c2:	09 f0       	breq	.+2      	; 0x1c6 <main+0xa6>
+			changeRight = true;
+ 1c4:	1e 82       	std	Y+6, r1	; 0x06
+			
+		if(changeLeft == true && changeRight == false){
+ 1c6:	8d 81       	ldd	r24, Y+5	; 0x05
+ 1c8:	88 23       	and	r24, r24
+ 1ca:	41 f4       	brne	.+16     	; 0x1dc <main+0xbc>
+ 1cc:	8e 81       	ldd	r24, Y+6	; 0x06
+ 1ce:	81 30       	cpi	r24, 0x01	; 1
+ 1d0:	29 f4       	brne	.+10     	; 0x1dc <main+0xbc>
+			direction = 1;
+ 1d2:	81 e0       	ldi	r24, 0x01	; 1
+ 1d4:	8d 87       	std	Y+13, r24	; 0x0d
+			changeLeft = false;
+ 1d6:	81 e0       	ldi	r24, 0x01	; 1
+ 1d8:	8d 83       	std	Y+5, r24	; 0x05
+ 1da:	16 c0       	rjmp	.+44     	; 0x208 <__EEPROM_REGION_LENGTH__+0x8>
+		}
+		else if(changeLeft == false && changeRight == true){
+ 1dc:	8d 81       	ldd	r24, Y+5	; 0x05
+ 1de:	81 30       	cpi	r24, 0x01	; 1
+ 1e0:	41 f4       	brne	.+16     	; 0x1f2 <main+0xd2>
+ 1e2:	8e 81       	ldd	r24, Y+6	; 0x06
+ 1e4:	88 23       	and	r24, r24
+ 1e6:	29 f4       	brne	.+10     	; 0x1f2 <main+0xd2>
+			direction = 2;
+ 1e8:	82 e0       	ldi	r24, 0x02	; 2
+ 1ea:	8d 87       	std	Y+13, r24	; 0x0d
+			changeRight = false;
+ 1ec:	81 e0       	ldi	r24, 0x01	; 1
+ 1ee:	8e 83       	std	Y+6, r24	; 0x06
+ 1f0:	0b c0       	rjmp	.+22     	; 0x208 <__EEPROM_REGION_LENGTH__+0x8>
+		}
+		else if(changeLeft == true && changeRight == true){
+ 1f2:	8d 81       	ldd	r24, Y+5	; 0x05
+ 1f4:	88 23       	and	r24, r24
+ 1f6:	41 f4       	brne	.+16     	; 0x208 <__EEPROM_REGION_LENGTH__+0x8>
+ 1f8:	8e 81       	ldd	r24, Y+6	; 0x06
+ 1fa:	88 23       	and	r24, r24
+ 1fc:	29 f4       	brne	.+10     	; 0x208 <__EEPROM_REGION_LENGTH__+0x8>
+			direction = 0;
+ 1fe:	1d 86       	std	Y+13, r1	; 0x0d
+			changeLeft = changeRight = false;
+ 200:	81 e0       	ldi	r24, 0x01	; 1
+ 202:	8e 83       	std	Y+6, r24	; 0x06
+ 204:	8e 81       	ldd	r24, Y+6	; 0x06
+ 206:	8d 83       	std	Y+5, r24	; 0x05
+		}
 		
-		int i=5;
- 158:	85 e0       	ldi	r24, 0x05	; 5
- 15a:	90 e0       	ldi	r25, 0x00	; 0
- 15c:	98 87       	std	Y+8, r25	; 0x08
- 15e:	8f 83       	std	Y+7, r24	; 0x07
-		/*printf("Left: %d   -   Right: %d\n", lightLevelLeft, lightLevelRight);*/
+		oldLightLevelLeft = lightLevelLeft;
+ 208:	89 85       	ldd	r24, Y+9	; 0x09
+ 20a:	9a 85       	ldd	r25, Y+10	; 0x0a
+ 20c:	9a 83       	std	Y+2, r25	; 0x02
+ 20e:	89 83       	std	Y+1, r24	; 0x01
+		oldLightLevelRight = lightLevelRight;
+ 210:	8b 85       	ldd	r24, Y+11	; 0x0b
+ 212:	9c 85       	ldd	r25, Y+12	; 0x0c
+ 214:	9c 83       	std	Y+4, r25	; 0x04
+ 216:	8b 83       	std	Y+3, r24	; 0x03
+	
     }
- 160:	ee cf       	rjmp	.-36     	; 0x13e <main+0x1e>
+ 218:	9f cf       	rjmp	.-194    	; 0x158 <main+0x38>
 
-00000162 <_exit>:
- 162:	f8 94       	cli
+0000021a <_exit>:
+ 21a:	f8 94       	cli
 
-00000164 <__stop_program>:
- 164:	ff cf       	rjmp	.-2      	; 0x164 <__stop_program>
+0000021c <__stop_program>:
+ 21c:	ff cf       	rjmp	.-2      	; 0x21c <__stop_program>

@@ -13,11 +13,9 @@
 #include <util/delay.h>
 #include <stdio.h>
 
-//https://www.electronicwings.com/avr-atmega/atmega1632-adc
+typedef enum {true, false} bool;
 
-int map(int receivedValue, int inMin, int inMax, int outMin, int outMax){
-	return (receivedValue - inMin) * (outMax - outMin)/(inMax - inMin) + outMin;
-}
+//https://www.electronicwings.com/avr-atmega/atmega1632-adc
 
 void ADCInitialisation(){
 	DDRA = 0;		//sets ADC port as input, 0 was for output
@@ -58,9 +56,13 @@ int main(void)
 {
 	uint8_t channelLeft = 0x00;
 	uint8_t channelRight = 0x01;
-	uint16_t lightLevelLeft;
-	uint16_t lightLevelRight;
-    ADCInitialisation();
+	uint16_t lightLevelLeft = 0;
+	uint16_t oldLightLevelLeft = 0;
+	uint16_t lightLevelRight = 0;
+    uint16_t oldLightLevelRight = 0;
+	bool  changeLeft = false, changeRight = false;
+	uint8_t direction = 0, oldDirection = 0; // 1 for left -> right; 2 for right -> left
+	ADCInitialisation();
     while (1) 
     {
 		channelLeft = 0x00;
@@ -69,7 +71,30 @@ int main(void)
 		lightLevelLeft = getLightLevel(channelLeft);
 		lightLevelRight = getLightLevel(channelRight);
 		
-	
+		if(abs(lightLevelLeft - oldLightLevelLeft) >= 150 && oldLightLevelLeft != 0)
+			changeLeft = true;
+		if(abs(lightLevelRight - oldLightLevelRight) >= 150 && oldLightLevelRight != 0)
+			changeRight = true;
+			
+		if(changeLeft == true && changeRight == false){
+			direction = 1;
+			changeLeft = false;
+		}
+		else if(changeLeft == false && changeRight == true){
+			direction = 2;
+			changeRight = false;
+		}
+		else if(changeLeft == true && changeRight == true){
+			direction = 0;
+			changeLeft = changeRight = false;
+		}
+		
+		if(direction != oldDirection && direction != 0)
+			//send response to Raspi for things have changed
+			
+		oldLightLevelLeft = lightLevelLeft;
+		oldLightLevelRight = lightLevelRight;
+		oldDirection = direction;
     }
 	return 0;
 }
