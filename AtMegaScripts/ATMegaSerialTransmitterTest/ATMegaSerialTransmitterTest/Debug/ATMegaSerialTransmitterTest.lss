@@ -3,29 +3,29 @@ ATMegaSerialTransmitterTest.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000014a  00000000  00000000  00000054  2**1
+  0 .text         00000140  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  0000019e  2**0
+  1 .data         00000000  00800060  00800060  00000194  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  0000019e  2**0
+  2 .comment      00000030  00000000  00000000  00000194  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001d0  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000001c4  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000038  00000000  00000000  0000020c  2**0
+  4 .debug_aranges 00000038  00000000  00000000  00000200  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000640  00000000  00000000  00000244  2**0
+  5 .debug_info   00000634  00000000  00000000  00000238  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000058a  00000000  00000000  00000884  2**0
+  6 .debug_abbrev 0000058a  00000000  00000000  0000086c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000179  00000000  00000000  00000e0e  2**0
+  7 .debug_line   00000169  00000000  00000000  00000df6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000094  00000000  00000000  00000f88  2**2
+  8 .debug_frame  00000094  00000000  00000000  00000f60  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000343  00000000  00000000  0000101c  2**0
+  9 .debug_str    00000351  00000000  00000000  00000ff4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000113  00000000  00000000  0000135f  2**0
+ 10 .debug_loc    00000113  00000000  00000000  00001345  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000028  00000000  00000000  00001472  2**0
+ 11 .debug_ranges 00000028  00000000  00000000  00001458  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -61,7 +61,7 @@ Disassembly of section .text:
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
   60:	0e 94 8b 00 	call	0x116	; 0x116 <main>
-  64:	0c 94 a3 00 	jmp	0x146	; 0x146 <_exit>
+  64:	0c 94 9e 00 	jmp	0x13c	; 0x13c <_exit>
 
 00000068 <__bad_interrupt>:
   68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -194,38 +194,31 @@ int main(void)
 {
  116:	cf 93       	push	r28
  118:	df 93       	push	r29
- 11a:	00 d0       	rcall	.+0      	; 0x11c <main+0x6>
+ 11a:	1f 92       	push	r1
  11c:	cd b7       	in	r28, 0x3d	; 61
  11e:	de b7       	in	r29, 0x3e	; 62
-	char c = 'a', x;
- 120:	81 e6       	ldi	r24, 0x61	; 97
- 122:	89 83       	std	Y+1, r24	; 0x01
+	char x;
 	USART_Init(MYUBRR);
- 124:	85 e0       	ldi	r24, 0x05	; 5
- 126:	90 e0       	ldi	r25, 0x00	; 0
- 128:	0e 94 36 00 	call	0x6c	; 0x6c <USART_Init>
+ 120:	85 e0       	ldi	r24, 0x05	; 5
+ 122:	90 e0       	ldi	r25, 0x00	; 0
+ 124:	0e 94 36 00 	call	0x6c	; 0x6c <USART_Init>
     /* Replace with your application code */
     while (1) 
     {
-		
 		x = USART_Receive();
- 12c:	0e 94 79 00 	call	0xf2	; 0xf2 <USART_Receive>
- 130:	8a 83       	std	Y+2, r24	; 0x02
-		x = x + 5;
- 132:	8a 81       	ldd	r24, Y+2	; 0x02
- 134:	8b 5f       	subi	r24, 0xFB	; 251
- 136:	8a 83       	std	Y+2, r24	; 0x02
+ 128:	0e 94 79 00 	call	0xf2	; 0xf2 <USART_Receive>
+ 12c:	89 83       	std	Y+1, r24	; 0x01
 		USART_Transmit(++x);
- 138:	8a 81       	ldd	r24, Y+2	; 0x02
- 13a:	8f 5f       	subi	r24, 0xFF	; 255
- 13c:	8a 83       	std	Y+2, r24	; 0x02
- 13e:	8a 81       	ldd	r24, Y+2	; 0x02
- 140:	0e 94 5e 00 	call	0xbc	; 0xbc <USART_Transmit>
+ 12e:	89 81       	ldd	r24, Y+1	; 0x01
+ 130:	8f 5f       	subi	r24, 0xFF	; 255
+ 132:	89 83       	std	Y+1, r24	; 0x01
+ 134:	89 81       	ldd	r24, Y+1	; 0x01
+ 136:	0e 94 5e 00 	call	0xbc	; 0xbc <USART_Transmit>
     }
- 144:	f3 cf       	rjmp	.-26     	; 0x12c <main+0x16>
+ 13a:	f6 cf       	rjmp	.-20     	; 0x128 <main+0x12>
 
-00000146 <_exit>:
- 146:	f8 94       	cli
+0000013c <_exit>:
+ 13c:	f8 94       	cli
 
-00000148 <__stop_program>:
- 148:	ff cf       	rjmp	.-2      	; 0x148 <__stop_program>
+0000013e <__stop_program>:
+ 13e:	ff cf       	rjmp	.-2      	; 0x13e <__stop_program>

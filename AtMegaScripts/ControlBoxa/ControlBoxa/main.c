@@ -20,9 +20,9 @@ int main(void)
     while (1) 
     {
 		PORTB = PORTB | (1<<2);		/* Making PD3 high. This will make LED ON */
-		_delay_ms(1000);
+		_delay_ms(2000);
 		PORTB = PORTB & (~(1<<2));	/* Making PD3 low. This will make LED OFF */
-		_delay_ms(1000);
+		_delay_ms(2000);
     }
 	
 	return 0;

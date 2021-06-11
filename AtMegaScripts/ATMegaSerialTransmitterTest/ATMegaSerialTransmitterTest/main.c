@@ -35,14 +35,12 @@ unsigned char USART_Receive()
 
 int main(void)
 {
-	char c = 'a', x;
+	char x;
 	USART_Init(MYUBRR);
     /* Replace with your application code */
     while (1) 
     {
-		
 		x = USART_Receive();
-		x = x + 5;
 		USART_Transmit(++x);
     }
 }
