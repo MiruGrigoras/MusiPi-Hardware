@@ -86,16 +86,22 @@ while(1):
                     conn.commit()
                 else:
                     raise NonDefinedRoomResponse
-                cursor.execute("SELECT active FROM rooms WHERE rooms.id = {}".format(door[1]))
-                currentRoom = cursor.fetchall()
+                
+                cursor.execute("SELECT active, people FROM rooms WHERE rooms.id = {}".format(door[1]))
+                cursor.fetchall()
                 if cursor.rowcount == 0:
                     raise RoomIdNotExisting
-                currentRoomActiveStatus = cursor.fetchone()
-                if currentRoomActiveStatus == 1:
-                    #send 'o' for keeping the speaker opened
-                    charToSend = 'o'
-                    serialConnection.write(charToSend.encode())
-                elif currentRoomActiveStatus == 0:
+                currentRoom = cursor.fetchone()
+                if currentRoom[0] == 1:
+                    if currentRoom[1] >= 1:
+                        #send 'o' for keeping the speaker opened
+                        charToSend = 'o'
+                        serialConnection.write(charToSend.encode())
+                    else
+                        #send 'c' for closing the speaker
+                        charToSend = 'c'
+                        serialConnection.write(charToSend.encode())
+                elif currentRoom[0] == 0:
                     #send 'c' for closing the speaker
                     charToSend = 'c'
                     serialConnection.write(charToSend.encode())

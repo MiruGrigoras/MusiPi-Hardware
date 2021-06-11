@@ -17,14 +17,18 @@ ser = serial.Serial(
 counter = 0
 try:
     while 1:
-        if counter < 10:
+        if counter < 5:
             print('1:')
             GPIO.output(17, 0)
             GPIO.output(27, 0)
-        else:
+            w = 'a'
+        else:                  
             print('2:')
-            GPIO.output(17, 0)
-            GPIO.output(27, 1)
+            GPIO.output(17, 1)
+            GPIO.output(27, 0)
+            w = 'b';
+        #GPIO.output(17, 1)
+        #GPIO.output(27, 0)
         w = chr(ord('a')+counter)
         ser.write(w.encode())
         time.sleep(0.5) 
@@ -32,7 +36,7 @@ try:
         r = ser.read()
         print(r)
         time.sleep(0.5)
-        if counter ==20:
+        if counter == 9:
             counter=0
 except KeyboardInterrupt:
     GPIO.cleanup()
