@@ -3,29 +3,29 @@ PhotoresistorTest.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         0000021e  00000000  00000000  00000054  2**1
+  0 .text         00000232  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  00000272  2**0
+  1 .data         00000000  00800060  00800060  00000286  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  00000272  2**0
+  2 .comment      00000030  00000000  00000000  00000286  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002a4  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002b8  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000030  00000000  00000000  000002e0  2**0
+  4 .debug_aranges 00000030  00000000  00000000  000002f4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   0000070c  00000000  00000000  00000310  2**0
+  5 .debug_info   0000071a  00000000  00000000  00000324  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000005cc  00000000  00000000  00000a1c  2**0
+  6 .debug_abbrev 000005cc  00000000  00000000  00000a3e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000323  00000000  00000000  00000fe8  2**0
+  7 .debug_line   0000033b  00000000  00000000  0000100a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000074  00000000  00000000  0000130c  2**2
+  8 .debug_frame  00000074  00000000  00000000  00001348  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000003dd  00000000  00000000  00001380  2**0
+  9 .debug_str    000003ea  00000000  00000000  000013bc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000000ca  00000000  00000000  0000175d  2**0
+ 10 .debug_loc    000000ca  00000000  00000000  000017a6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000020  00000000  00000000  00001827  2**0
+ 11 .debug_ranges 00000020  00000000  00000000  00001870  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -61,7 +61,7 @@ Disassembly of section .text:
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
   60:	0e 94 90 00 	call	0x120	; 0x120 <main>
-  64:	0c 94 0d 01 	jmp	0x21a	; 0x21a <_exit>
+  64:	0c 94 17 01 	jmp	0x22e	; 0x22e <_exit>
 
 00000068 <__bad_interrupt>:
   68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -203,26 +203,26 @@ int main(void)
  122:	df 93       	push	r29
  124:	cd b7       	in	r28, 0x3d	; 61
  126:	de b7       	in	r29, 0x3e	; 62
- 128:	2d 97       	sbiw	r28, 0x0d	; 13
+ 128:	2e 97       	sbiw	r28, 0x0e	; 14
  12a:	0f b6       	in	r0, 0x3f	; 63
  12c:	f8 94       	cli
  12e:	de bf       	out	0x3e, r29	; 62
  130:	0f be       	out	0x3f, r0	; 63
  132:	cd bf       	out	0x3d, r28	; 61
 	uint8_t channelLeft = 0x00;
- 134:	1f 82       	std	Y+7, r1	; 0x07
+ 134:	19 86       	std	Y+9, r1	; 0x09
 	uint8_t channelRight = 0x01;
  136:	81 e0       	ldi	r24, 0x01	; 1
- 138:	88 87       	std	Y+8, r24	; 0x08
+ 138:	8a 87       	std	Y+10, r24	; 0x0a
 	uint16_t lightLevelLeft = 0;
- 13a:	1a 86       	std	Y+10, r1	; 0x0a
- 13c:	19 86       	std	Y+9, r1	; 0x09
+ 13a:	1c 86       	std	Y+12, r1	; 0x0c
+ 13c:	1b 86       	std	Y+11, r1	; 0x0b
 	uint16_t oldLightLevelLeft = 0;
  13e:	1a 82       	std	Y+2, r1	; 0x02
  140:	19 82       	std	Y+1, r1	; 0x01
 	uint16_t lightLevelRight = 0;
- 142:	1c 86       	std	Y+12, r1	; 0x0c
- 144:	1b 86       	std	Y+11, r1	; 0x0b
+ 142:	1e 86       	std	Y+14, r1	; 0x0e
+ 144:	1d 86       	std	Y+13, r1	; 0x0d
     uint16_t oldLightLevelRight = 0;
  146:	1c 82       	std	Y+4, r1	; 0x04
  148:	1b 82       	std	Y+3, r1	; 0x03
@@ -231,138 +231,151 @@ int main(void)
  14c:	8d 83       	std	Y+5, r24	; 0x05
  14e:	81 e0       	ldi	r24, 0x01	; 1
  150:	8e 83       	std	Y+6, r24	; 0x06
-	uint8_t direction = 0; // 1 for left -> right; 2 for right -> left
- 152:	1d 86       	std	Y+13, r1	; 0x0d
+	uint8_t direction = 0, oldDirection = 0; // 1 for left -> right; 2 for right -> left
+ 152:	1f 82       	std	Y+7, r1	; 0x07
+ 154:	18 86       	std	Y+8, r1	; 0x08
 	ADCInitialisation();
- 154:	0e 94 36 00 	call	0x6c	; 0x6c <ADCInitialisation>
+ 156:	0e 94 36 00 	call	0x6c	; 0x6c <ADCInitialisation>
     while (1) 
     {
 		channelLeft = 0x00;
- 158:	1f 82       	std	Y+7, r1	; 0x07
+ 15a:	19 86       	std	Y+9, r1	; 0x09
 		channelRight = 0x01;
- 15a:	81 e0       	ldi	r24, 0x01	; 1
- 15c:	88 87       	std	Y+8, r24	; 0x08
+ 15c:	81 e0       	ldi	r24, 0x01	; 1
+ 15e:	8a 87       	std	Y+10, r24	; 0x0a
 		
 		lightLevelLeft = getLightLevel(channelLeft);
- 15e:	8f 81       	ldd	r24, Y+7	; 0x07
- 160:	0e 94 4b 00 	call	0x96	; 0x96 <getLightLevel>
- 164:	9a 87       	std	Y+10, r25	; 0x0a
- 166:	89 87       	std	Y+9, r24	; 0x09
+ 160:	89 85       	ldd	r24, Y+9	; 0x09
+ 162:	0e 94 4b 00 	call	0x96	; 0x96 <getLightLevel>
+ 166:	9c 87       	std	Y+12, r25	; 0x0c
+ 168:	8b 87       	std	Y+11, r24	; 0x0b
 		lightLevelRight = getLightLevel(channelRight);
- 168:	88 85       	ldd	r24, Y+8	; 0x08
- 16a:	0e 94 4b 00 	call	0x96	; 0x96 <getLightLevel>
- 16e:	9c 87       	std	Y+12, r25	; 0x0c
- 170:	8b 87       	std	Y+11, r24	; 0x0b
+ 16a:	8a 85       	ldd	r24, Y+10	; 0x0a
+ 16c:	0e 94 4b 00 	call	0x96	; 0x96 <getLightLevel>
+ 170:	9e 87       	std	Y+14, r25	; 0x0e
+ 172:	8d 87       	std	Y+13, r24	; 0x0d
 		
 		if(abs(lightLevelLeft - oldLightLevelLeft) >= 150 && oldLightLevelLeft != 0)
- 172:	29 85       	ldd	r18, Y+9	; 0x09
- 174:	3a 85       	ldd	r19, Y+10	; 0x0a
- 176:	89 81       	ldd	r24, Y+1	; 0x01
- 178:	9a 81       	ldd	r25, Y+2	; 0x02
- 17a:	a9 01       	movw	r20, r18
- 17c:	48 1b       	sub	r20, r24
- 17e:	59 0b       	sbc	r21, r25
- 180:	ca 01       	movw	r24, r20
- 182:	99 23       	and	r25, r25
- 184:	1c f4       	brge	.+6      	; 0x18c <main+0x6c>
- 186:	91 95       	neg	r25
- 188:	81 95       	neg	r24
- 18a:	91 09       	sbc	r25, r1
- 18c:	86 39       	cpi	r24, 0x96	; 150
- 18e:	91 05       	cpc	r25, r1
- 190:	2c f0       	brlt	.+10     	; 0x19c <main+0x7c>
- 192:	89 81       	ldd	r24, Y+1	; 0x01
- 194:	9a 81       	ldd	r25, Y+2	; 0x02
- 196:	89 2b       	or	r24, r25
- 198:	09 f0       	breq	.+2      	; 0x19c <main+0x7c>
+ 174:	2b 85       	ldd	r18, Y+11	; 0x0b
+ 176:	3c 85       	ldd	r19, Y+12	; 0x0c
+ 178:	89 81       	ldd	r24, Y+1	; 0x01
+ 17a:	9a 81       	ldd	r25, Y+2	; 0x02
+ 17c:	a9 01       	movw	r20, r18
+ 17e:	48 1b       	sub	r20, r24
+ 180:	59 0b       	sbc	r21, r25
+ 182:	ca 01       	movw	r24, r20
+ 184:	99 23       	and	r25, r25
+ 186:	1c f4       	brge	.+6      	; 0x18e <main+0x6e>
+ 188:	91 95       	neg	r25
+ 18a:	81 95       	neg	r24
+ 18c:	91 09       	sbc	r25, r1
+ 18e:	86 39       	cpi	r24, 0x96	; 150
+ 190:	91 05       	cpc	r25, r1
+ 192:	2c f0       	brlt	.+10     	; 0x19e <main+0x7e>
+ 194:	89 81       	ldd	r24, Y+1	; 0x01
+ 196:	9a 81       	ldd	r25, Y+2	; 0x02
+ 198:	89 2b       	or	r24, r25
+ 19a:	09 f0       	breq	.+2      	; 0x19e <main+0x7e>
 			changeLeft = true;
- 19a:	1d 82       	std	Y+5, r1	; 0x05
+ 19c:	1d 82       	std	Y+5, r1	; 0x05
 		if(abs(lightLevelRight - oldLightLevelRight) >= 150 && oldLightLevelRight != 0)
- 19c:	2b 85       	ldd	r18, Y+11	; 0x0b
- 19e:	3c 85       	ldd	r19, Y+12	; 0x0c
- 1a0:	8b 81       	ldd	r24, Y+3	; 0x03
- 1a2:	9c 81       	ldd	r25, Y+4	; 0x04
- 1a4:	a9 01       	movw	r20, r18
- 1a6:	48 1b       	sub	r20, r24
- 1a8:	59 0b       	sbc	r21, r25
- 1aa:	ca 01       	movw	r24, r20
- 1ac:	99 23       	and	r25, r25
- 1ae:	1c f4       	brge	.+6      	; 0x1b6 <main+0x96>
- 1b0:	91 95       	neg	r25
- 1b2:	81 95       	neg	r24
- 1b4:	91 09       	sbc	r25, r1
- 1b6:	86 39       	cpi	r24, 0x96	; 150
- 1b8:	91 05       	cpc	r25, r1
- 1ba:	2c f0       	brlt	.+10     	; 0x1c6 <main+0xa6>
- 1bc:	8b 81       	ldd	r24, Y+3	; 0x03
- 1be:	9c 81       	ldd	r25, Y+4	; 0x04
- 1c0:	89 2b       	or	r24, r25
- 1c2:	09 f0       	breq	.+2      	; 0x1c6 <main+0xa6>
+ 19e:	2d 85       	ldd	r18, Y+13	; 0x0d
+ 1a0:	3e 85       	ldd	r19, Y+14	; 0x0e
+ 1a2:	8b 81       	ldd	r24, Y+3	; 0x03
+ 1a4:	9c 81       	ldd	r25, Y+4	; 0x04
+ 1a6:	a9 01       	movw	r20, r18
+ 1a8:	48 1b       	sub	r20, r24
+ 1aa:	59 0b       	sbc	r21, r25
+ 1ac:	ca 01       	movw	r24, r20
+ 1ae:	99 23       	and	r25, r25
+ 1b0:	1c f4       	brge	.+6      	; 0x1b8 <main+0x98>
+ 1b2:	91 95       	neg	r25
+ 1b4:	81 95       	neg	r24
+ 1b6:	91 09       	sbc	r25, r1
+ 1b8:	86 39       	cpi	r24, 0x96	; 150
+ 1ba:	91 05       	cpc	r25, r1
+ 1bc:	2c f0       	brlt	.+10     	; 0x1c8 <main+0xa8>
+ 1be:	8b 81       	ldd	r24, Y+3	; 0x03
+ 1c0:	9c 81       	ldd	r25, Y+4	; 0x04
+ 1c2:	89 2b       	or	r24, r25
+ 1c4:	09 f0       	breq	.+2      	; 0x1c8 <main+0xa8>
 			changeRight = true;
- 1c4:	1e 82       	std	Y+6, r1	; 0x06
+ 1c6:	1e 82       	std	Y+6, r1	; 0x06
 			
 		if(changeLeft == true && changeRight == false){
- 1c6:	8d 81       	ldd	r24, Y+5	; 0x05
- 1c8:	88 23       	and	r24, r24
- 1ca:	41 f4       	brne	.+16     	; 0x1dc <main+0xbc>
- 1cc:	8e 81       	ldd	r24, Y+6	; 0x06
- 1ce:	81 30       	cpi	r24, 0x01	; 1
- 1d0:	29 f4       	brne	.+10     	; 0x1dc <main+0xbc>
+ 1c8:	8d 81       	ldd	r24, Y+5	; 0x05
+ 1ca:	88 23       	and	r24, r24
+ 1cc:	41 f4       	brne	.+16     	; 0x1de <main+0xbe>
+ 1ce:	8e 81       	ldd	r24, Y+6	; 0x06
+ 1d0:	81 30       	cpi	r24, 0x01	; 1
+ 1d2:	29 f4       	brne	.+10     	; 0x1de <main+0xbe>
 			direction = 1;
- 1d2:	81 e0       	ldi	r24, 0x01	; 1
- 1d4:	8d 87       	std	Y+13, r24	; 0x0d
+ 1d4:	81 e0       	ldi	r24, 0x01	; 1
+ 1d6:	8f 83       	std	Y+7, r24	; 0x07
 			changeLeft = false;
- 1d6:	81 e0       	ldi	r24, 0x01	; 1
- 1d8:	8d 83       	std	Y+5, r24	; 0x05
- 1da:	16 c0       	rjmp	.+44     	; 0x208 <__EEPROM_REGION_LENGTH__+0x8>
+ 1d8:	81 e0       	ldi	r24, 0x01	; 1
+ 1da:	8d 83       	std	Y+5, r24	; 0x05
+ 1dc:	16 c0       	rjmp	.+44     	; 0x20a <__EEPROM_REGION_LENGTH__+0xa>
 		}
 		else if(changeLeft == false && changeRight == true){
- 1dc:	8d 81       	ldd	r24, Y+5	; 0x05
- 1de:	81 30       	cpi	r24, 0x01	; 1
- 1e0:	41 f4       	brne	.+16     	; 0x1f2 <main+0xd2>
- 1e2:	8e 81       	ldd	r24, Y+6	; 0x06
- 1e4:	88 23       	and	r24, r24
- 1e6:	29 f4       	brne	.+10     	; 0x1f2 <main+0xd2>
+ 1de:	8d 81       	ldd	r24, Y+5	; 0x05
+ 1e0:	81 30       	cpi	r24, 0x01	; 1
+ 1e2:	41 f4       	brne	.+16     	; 0x1f4 <main+0xd4>
+ 1e4:	8e 81       	ldd	r24, Y+6	; 0x06
+ 1e6:	88 23       	and	r24, r24
+ 1e8:	29 f4       	brne	.+10     	; 0x1f4 <main+0xd4>
 			direction = 2;
- 1e8:	82 e0       	ldi	r24, 0x02	; 2
- 1ea:	8d 87       	std	Y+13, r24	; 0x0d
+ 1ea:	82 e0       	ldi	r24, 0x02	; 2
+ 1ec:	8f 83       	std	Y+7, r24	; 0x07
 			changeRight = false;
- 1ec:	81 e0       	ldi	r24, 0x01	; 1
- 1ee:	8e 83       	std	Y+6, r24	; 0x06
- 1f0:	0b c0       	rjmp	.+22     	; 0x208 <__EEPROM_REGION_LENGTH__+0x8>
+ 1ee:	81 e0       	ldi	r24, 0x01	; 1
+ 1f0:	8e 83       	std	Y+6, r24	; 0x06
+ 1f2:	0b c0       	rjmp	.+22     	; 0x20a <__EEPROM_REGION_LENGTH__+0xa>
 		}
 		else if(changeLeft == true && changeRight == true){
- 1f2:	8d 81       	ldd	r24, Y+5	; 0x05
- 1f4:	88 23       	and	r24, r24
- 1f6:	41 f4       	brne	.+16     	; 0x208 <__EEPROM_REGION_LENGTH__+0x8>
- 1f8:	8e 81       	ldd	r24, Y+6	; 0x06
- 1fa:	88 23       	and	r24, r24
- 1fc:	29 f4       	brne	.+10     	; 0x208 <__EEPROM_REGION_LENGTH__+0x8>
+ 1f4:	8d 81       	ldd	r24, Y+5	; 0x05
+ 1f6:	88 23       	and	r24, r24
+ 1f8:	41 f4       	brne	.+16     	; 0x20a <__EEPROM_REGION_LENGTH__+0xa>
+ 1fa:	8e 81       	ldd	r24, Y+6	; 0x06
+ 1fc:	88 23       	and	r24, r24
+ 1fe:	29 f4       	brne	.+10     	; 0x20a <__EEPROM_REGION_LENGTH__+0xa>
 			direction = 0;
- 1fe:	1d 86       	std	Y+13, r1	; 0x0d
+ 200:	1f 82       	std	Y+7, r1	; 0x07
 			changeLeft = changeRight = false;
- 200:	81 e0       	ldi	r24, 0x01	; 1
- 202:	8e 83       	std	Y+6, r24	; 0x06
- 204:	8e 81       	ldd	r24, Y+6	; 0x06
- 206:	8d 83       	std	Y+5, r24	; 0x05
+ 202:	81 e0       	ldi	r24, 0x01	; 1
+ 204:	8e 83       	std	Y+6, r24	; 0x06
+ 206:	8e 81       	ldd	r24, Y+6	; 0x06
+ 208:	8d 83       	std	Y+5, r24	; 0x05
 		}
 		
+		if(direction != oldDirection && direction != 0)
+ 20a:	9f 81       	ldd	r25, Y+7	; 0x07
+ 20c:	88 85       	ldd	r24, Y+8	; 0x08
+ 20e:	98 17       	cp	r25, r24
+ 210:	39 f0       	breq	.+14     	; 0x220 <__EEPROM_REGION_LENGTH__+0x20>
+ 212:	8f 81       	ldd	r24, Y+7	; 0x07
+ 214:	88 23       	and	r24, r24
+ 216:	21 f0       	breq	.+8      	; 0x220 <__EEPROM_REGION_LENGTH__+0x20>
+			//send response to Raspi for things have changed
+			
 		oldLightLevelLeft = lightLevelLeft;
- 208:	89 85       	ldd	r24, Y+9	; 0x09
- 20a:	9a 85       	ldd	r25, Y+10	; 0x0a
- 20c:	9a 83       	std	Y+2, r25	; 0x02
- 20e:	89 83       	std	Y+1, r24	; 0x01
+ 218:	8b 85       	ldd	r24, Y+11	; 0x0b
+ 21a:	9c 85       	ldd	r25, Y+12	; 0x0c
+ 21c:	9a 83       	std	Y+2, r25	; 0x02
+ 21e:	89 83       	std	Y+1, r24	; 0x01
 		oldLightLevelRight = lightLevelRight;
- 210:	8b 85       	ldd	r24, Y+11	; 0x0b
- 212:	9c 85       	ldd	r25, Y+12	; 0x0c
- 214:	9c 83       	std	Y+4, r25	; 0x04
- 216:	8b 83       	std	Y+3, r24	; 0x03
-	
+ 220:	8d 85       	ldd	r24, Y+13	; 0x0d
+ 222:	9e 85       	ldd	r25, Y+14	; 0x0e
+ 224:	9c 83       	std	Y+4, r25	; 0x04
+ 226:	8b 83       	std	Y+3, r24	; 0x03
+		oldDirection = direction;
+ 228:	8f 81       	ldd	r24, Y+7	; 0x07
+ 22a:	88 87       	std	Y+8, r24	; 0x08
     }
- 218:	9f cf       	rjmp	.-194    	; 0x158 <main+0x38>
+ 22c:	96 cf       	rjmp	.-212    	; 0x15a <main+0x3a>
 
-0000021a <_exit>:
- 21a:	f8 94       	cli
+0000022e <_exit>:
+ 22e:	f8 94       	cli
 
-0000021c <__stop_program>:
- 21c:	ff cf       	rjmp	.-2      	; 0x21c <__stop_program>
+00000230 <__stop_program>:
+ 230:	ff cf       	rjmp	.-2      	; 0x230 <__stop_program>

@@ -1,0 +1,479 @@
+
+ATmegaResponse.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001fe  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000002  00800060  000001fe  00000292  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000006  00800062  00800062  00000294  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000294  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000002c4  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000058  00000000  00000000  00000300  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   0000083c  00000000  00000000  00000358  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000651  00000000  00000000  00000b94  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   000003df  00000000  00000000  000011e5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  000000a0  00000000  00000000  000015c4  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    00000461  00000000  00000000  00001664  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00000284  00000000  00000000  00001ac5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000048  00000000  00000000  00001d49  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  34:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	ee ef       	ldi	r30, 0xFE	; 254
+  68:	f1 e0       	ldi	r31, 0x01	; 1
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <__do_copy_data+0x10>
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+  70:	a2 36       	cpi	r26, 0x62	; 98
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <__do_copy_data+0xc>
+
+00000076 <__do_clear_bss>:
+  76:	20 e0       	ldi	r18, 0x00	; 0
+  78:	a2 e6       	ldi	r26, 0x62	; 98
+  7a:	b0 e0       	ldi	r27, 0x00	; 0
+  7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+  7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+  80:	a8 36       	cpi	r26, 0x68	; 104
+  82:	b2 07       	cpc	r27, r18
+  84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+  86:	0e 94 c5 00 	call	0x18a	; 0x18a <main>
+  8a:	0c 94 fd 00 	jmp	0x1fa	; 0x1fa <_exit>
+
+0000008e <__bad_interrupt>:
+  8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <Speakers_Init>:
+uint16_t oldLightLevelRight = 0;
+uint8_t oldDirection = 0; // 1 for left -> right; 2 for right -> left
+
+void Speakers_Init()
+{
+	DDRB = DDRB | (1<<2) | 1;
+  92:	87 b3       	in	r24, 0x17	; 23
+  94:	85 60       	ori	r24, 0x05	; 5
+  96:	87 bb       	out	0x17, r24	; 23
+  98:	08 95       	ret
+
+0000009a <USART_Init>:
+}
+
+void USART_Init( unsigned int myubrr ){
+	//Set baud rate
+	UCSRC = 0;
+  9a:	10 bc       	out	0x20, r1	; 32
+	UBRRH = (unsigned char) (myubrr>>8);
+  9c:	90 bd       	out	0x20, r25	; 32
+	UBRRL = (unsigned char) myubrr;
+  9e:	89 b9       	out	0x09, r24	; 9
+	
+	//Enable receiver and transmitter
+	UCSRB = (1<<RXEN)|(1<<TXEN);
+  a0:	88 e1       	ldi	r24, 0x18	; 24
+  a2:	8a b9       	out	0x0a, r24	; 10
+	
+	/* Set frame format: 8 bits data, -no- 2stop bit */
+	UCSRC = (1<<URSEL)|(3<<UCSZ0);
+  a4:	86 e8       	ldi	r24, 0x86	; 134
+  a6:	80 bd       	out	0x20, r24	; 32
+  a8:	08 95       	ret
+
+000000aa <USART_Transmit>:
+}
+
+void USART_Transmit( unsigned char data )
+{
+	/* Wait for empty transmit buffer */
+	while ( !( UCSRA & (1<<UDRE)) );
+  aa:	5d 9b       	sbis	0x0b, 5	; 11
+  ac:	fe cf       	rjmp	.-4      	; 0xaa <USART_Transmit>
+	/* Put data into buffer, sends the data */
+	UDR = data;
+  ae:	8c b9       	out	0x0c, r24	; 12
+  b0:	08 95       	ret
+
+000000b2 <USART_Receive>:
+}
+
+unsigned char USART_Receive()
+{
+	while ((UCSRA & (1 << RXC)) == 0);/* Wait till data is received */
+  b2:	5f 9b       	sbis	0x0b, 7	; 11
+  b4:	fe cf       	rjmp	.-4      	; 0xb2 <USART_Receive>
+	return(UDR);		/* Return the byte */
+  b6:	8c b1       	in	r24, 0x0c	; 12
+}
+  b8:	08 95       	ret
+
+000000ba <ADC_Init>:
+
+void ADC_Init(){
+	DDRA = 0;		//sets ADC port as input, 1 was for output
+  ba:	1a ba       	out	0x1a, r1	; 26
+	ADCSRA = 0;
+  bc:	16 b8       	out	0x06, r1	; 6
+	ADCSRA = (1<<ADEN) | (1<<ADPS2) | (1<<ADPS1);
+  be:	86 e8       	ldi	r24, 0x86	; 134
+  c0:	86 b9       	out	0x06, r24	; 6
+  c2:	08 95       	ret
+
+000000c4 <getLightLevel>:
+uint16_t getLightLevel(uint8_t channel){
+	uint8_t adc_hi;
+	uint8_t adc_lo;
+	uint16_t result = 0;
+	//setez canalul de pe care sa citesc
+	ADMUX = (1 << REFS0) | (channel & 0x1f);		//compar channel-ul cu 00011111 ca sa ma asigur ca iau bitii corecti din channel
+  c4:	8f 71       	andi	r24, 0x1F	; 31
+  c6:	80 64       	ori	r24, 0x40	; 64
+  c8:	87 b9       	out	0x07, r24	; 7
+	
+	ADCSRA |= (1<<ADSC);			//: ADC start conversion, alternativa la ADSC = 1;
+  ca:	86 b1       	in	r24, 0x06	; 6
+  cc:	80 64       	ori	r24, 0x40	; 64
+  ce:	86 b9       	out	0x06, r24	; 6
+	
+	while(ADCSRA & (1<<ADSC));		//ADSC devine 0 la finalul conversiei, desi putem folosi si ca ADIF sa fie 1 (sa se intrerupa conversia)
+  d0:	36 99       	sbic	0x06, 6	; 6
+  d2:	fe cf       	rjmp	.-4      	; 0xd0 <getLightLevel+0xc>
+	
+	//_delay_ms(10);
+	adc_lo = ADCL;
+  d4:	24 b1       	in	r18, 0x04	; 4
+	adc_hi = ADCH;
+  d6:	85 b1       	in	r24, 0x05	; 5
+	result = ((uint16_t)adc_hi << 8) | adc_lo;
+  d8:	90 e0       	ldi	r25, 0x00	; 0
+  da:	98 2f       	mov	r25, r24
+  dc:	88 27       	eor	r24, r24
+	return(result);
+}
+  de:	82 2b       	or	r24, r18
+  e0:	08 95       	ret
+
+000000e2 <getDirection>:
+
+char getDirection()
+{
+  e2:	cf 93       	push	r28
+  e4:	df 93       	push	r29
+	uint8_t direction = 0;
+	bool changeLeft = false, changeRight = false;
+	uint16_t lightLevelLeft = 0;
+	uint16_t lightLevelRight = 0;
+	
+	lightLevelLeft = getLightLevel(lightChannelLeft);
+  e6:	80 91 67 00 	lds	r24, 0x0067	; 0x800067 <lightChannelLeft>
+  ea:	0e 94 62 00 	call	0xc4	; 0xc4 <getLightLevel>
+  ee:	ec 01       	movw	r28, r24
+	lightLevelRight = getLightLevel(lightChannelRight);
+  f0:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+  f4:	0e 94 62 00 	call	0xc4	; 0xc4 <getLightLevel>
+	
+	if(abs(lightLevelLeft - oldLightLevelLeft) >= 150 && oldLightLevelLeft != 0)
+  f8:	40 91 65 00 	lds	r20, 0x0065	; 0x800065 <oldLightLevelLeft>
+  fc:	50 91 66 00 	lds	r21, 0x0066	; 0x800066 <oldLightLevelLeft+0x1>
+ 100:	be 01       	movw	r22, r28
+ 102:	64 1b       	sub	r22, r20
+ 104:	75 0b       	sbc	r23, r21
+ 106:	9b 01       	movw	r18, r22
+ 108:	22 f4       	brpl	.+8      	; 0x112 <getDirection+0x30>
+ 10a:	22 27       	eor	r18, r18
+ 10c:	33 27       	eor	r19, r19
+ 10e:	26 1b       	sub	r18, r22
+ 110:	37 0b       	sbc	r19, r23
+ 112:	26 39       	cpi	r18, 0x96	; 150
+ 114:	31 05       	cpc	r19, r1
+ 116:	24 f0       	brlt	.+8      	; 0x120 <getDirection+0x3e>
+ 118:	45 2b       	or	r20, r21
+ 11a:	21 f4       	brne	.+8      	; 0x124 <getDirection+0x42>
+}
+
+char getDirection()
+{
+	uint8_t direction = 0;
+	bool changeLeft = false, changeRight = false;
+ 11c:	41 e0       	ldi	r20, 0x01	; 1
+ 11e:	03 c0       	rjmp	.+6      	; 0x126 <getDirection+0x44>
+ 120:	41 e0       	ldi	r20, 0x01	; 1
+ 122:	01 c0       	rjmp	.+2      	; 0x126 <getDirection+0x44>
+	
+	lightLevelLeft = getLightLevel(lightChannelLeft);
+	lightLevelRight = getLightLevel(lightChannelRight);
+	
+	if(abs(lightLevelLeft - oldLightLevelLeft) >= 150 && oldLightLevelLeft != 0)
+		changeLeft = true;
+ 124:	40 e0       	ldi	r20, 0x00	; 0
+	if(abs(lightLevelRight - oldLightLevelRight) >= 150 && oldLightLevelRight != 0)
+ 126:	60 91 63 00 	lds	r22, 0x0063	; 0x800063 <oldLightLevelRight>
+ 12a:	70 91 64 00 	lds	r23, 0x0064	; 0x800064 <oldLightLevelRight+0x1>
+ 12e:	fc 01       	movw	r30, r24
+ 130:	e6 1b       	sub	r30, r22
+ 132:	f7 0b       	sbc	r31, r23
+ 134:	9f 01       	movw	r18, r30
+ 136:	22 f4       	brpl	.+8      	; 0x140 <getDirection+0x5e>
+ 138:	22 27       	eor	r18, r18
+ 13a:	33 27       	eor	r19, r19
+ 13c:	2e 1b       	sub	r18, r30
+ 13e:	3f 0b       	sbc	r19, r31
+ 140:	26 39       	cpi	r18, 0x96	; 150
+ 142:	31 05       	cpc	r19, r1
+ 144:	24 f0       	brlt	.+8      	; 0x14e <getDirection+0x6c>
+ 146:	67 2b       	or	r22, r23
+ 148:	21 f4       	brne	.+8      	; 0x152 <getDirection+0x70>
+}
+
+char getDirection()
+{
+	uint8_t direction = 0;
+	bool changeLeft = false, changeRight = false;
+ 14a:	21 e0       	ldi	r18, 0x01	; 1
+ 14c:	03 c0       	rjmp	.+6      	; 0x154 <getDirection+0x72>
+ 14e:	21 e0       	ldi	r18, 0x01	; 1
+ 150:	01 c0       	rjmp	.+2      	; 0x154 <getDirection+0x72>
+	lightLevelRight = getLightLevel(lightChannelRight);
+	
+	if(abs(lightLevelLeft - oldLightLevelLeft) >= 150 && oldLightLevelLeft != 0)
+		changeLeft = true;
+	if(abs(lightLevelRight - oldLightLevelRight) >= 150 && oldLightLevelRight != 0)
+		changeRight = true;
+ 152:	20 e0       	ldi	r18, 0x00	; 0
+	
+	if(changeLeft == true && changeRight == false){
+ 154:	41 11       	cpse	r20, r1
+ 156:	02 c0       	rjmp	.+4      	; 0x15c <getDirection+0x7a>
+ 158:	21 30       	cpi	r18, 0x01	; 1
+ 15a:	31 f0       	breq	.+12     	; 0x168 <getDirection+0x86>
+		direction = 1;
+		changeLeft = false;
+	}
+	else if(changeLeft == false && changeRight == true){
+ 15c:	41 30       	cpi	r20, 0x01	; 1
+ 15e:	31 f4       	brne	.+12     	; 0x16c <getDirection+0x8a>
+ 160:	22 23       	and	r18, r18
+ 162:	31 f0       	breq	.+12     	; 0x170 <getDirection+0x8e>
+	return(result);
+}
+
+char getDirection()
+{
+	uint8_t direction = 0;
+ 164:	20 e0       	ldi	r18, 0x00	; 0
+ 166:	05 c0       	rjmp	.+10     	; 0x172 <getDirection+0x90>
+		changeLeft = true;
+	if(abs(lightLevelRight - oldLightLevelRight) >= 150 && oldLightLevelRight != 0)
+		changeRight = true;
+	
+	if(changeLeft == true && changeRight == false){
+		direction = 1;
+ 168:	21 e0       	ldi	r18, 0x01	; 1
+ 16a:	03 c0       	rjmp	.+6      	; 0x172 <getDirection+0x90>
+	return(result);
+}
+
+char getDirection()
+{
+	uint8_t direction = 0;
+ 16c:	20 e0       	ldi	r18, 0x00	; 0
+ 16e:	01 c0       	rjmp	.+2      	; 0x172 <getDirection+0x90>
+	if(changeLeft == true && changeRight == false){
+		direction = 1;
+		changeLeft = false;
+	}
+	else if(changeLeft == false && changeRight == true){
+		direction = 2;
+ 170:	22 e0       	ldi	r18, 0x02	; 2
+	else if(changeLeft == true && changeRight == true){
+		direction = 0;
+		changeLeft = changeRight = false;
+	}
+	
+	oldLightLevelLeft = lightLevelLeft;
+ 172:	d0 93 66 00 	sts	0x0066, r29	; 0x800066 <oldLightLevelLeft+0x1>
+ 176:	c0 93 65 00 	sts	0x0065, r28	; 0x800065 <oldLightLevelLeft>
+	oldLightLevelRight = lightLevelRight;
+ 17a:	90 93 64 00 	sts	0x0064, r25	; 0x800064 <oldLightLevelRight+0x1>
+ 17e:	80 93 63 00 	sts	0x0063, r24	; 0x800063 <oldLightLevelRight>
+	
+	return direction;
+}
+ 182:	82 2f       	mov	r24, r18
+ 184:	df 91       	pop	r29
+ 186:	cf 91       	pop	r28
+ 188:	08 95       	ret
+
+0000018a <main>:
+
+int main(void)
+{
+	char charToReceive, charToSend;
+	uint8_t direction, notYetSentDirection = 0;
+	USART_Init(MYUBRR);
+ 18a:	85 e0       	ldi	r24, 0x05	; 5
+ 18c:	90 e0       	ldi	r25, 0x00	; 0
+ 18e:	0e 94 4d 00 	call	0x9a	; 0x9a <USART_Init>
+	ADC_Init();
+ 192:	0e 94 5d 00 	call	0xba	; 0xba <ADC_Init>
+	Speakers_Init();
+ 196:	0e 94 49 00 	call	0x92	; 0x92 <Speakers_Init>
+}
+
+int main(void)
+{
+	char charToReceive, charToSend;
+	uint8_t direction, notYetSentDirection = 0;
+ 19a:	10 e0       	ldi	r17, 0x00	; 0
+	USART_Init(MYUBRR);
+	ADC_Init();
+	Speakers_Init();
+	while (1)
+	{
+		PORTB = PORTB & (~(1<<2));
+ 19c:	88 b3       	in	r24, 0x18	; 24
+ 19e:	8b 7f       	andi	r24, 0xFB	; 251
+ 1a0:	88 bb       	out	0x18, r24	; 24
+		charToReceive = USART_Receive();
+ 1a2:	0e 94 59 00 	call	0xb2	; 0xb2 <USART_Receive>
+ 1a6:	c8 2f       	mov	r28, r24
+		direction = getDirection();
+ 1a8:	0e 94 71 00 	call	0xe2	; 0xe2 <getDirection>
+		if(direction != oldDirection && direction != 0)
+ 1ac:	90 91 62 00 	lds	r25, 0x0062	; 0x800062 <__data_end>
+ 1b0:	89 17       	cp	r24, r25
+ 1b2:	29 f0       	breq	.+10     	; 0x1be <main+0x34>
+ 1b4:	88 23       	and	r24, r24
+ 1b6:	19 f0       	breq	.+6      	; 0x1be <main+0x34>
+		{
+			notYetSentDirection = direction;
+			oldDirection = direction;
+ 1b8:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <__data_end>
+		PORTB = PORTB & (~(1<<2));
+		charToReceive = USART_Receive();
+		direction = getDirection();
+		if(direction != oldDirection && direction != 0)
+		{
+			notYetSentDirection = direction;
+ 1bc:	18 2f       	mov	r17, r24
+			oldDirection = direction;
+		}
+		if(charToReceive == '?'){
+ 1be:	cf 33       	cpi	r28, 0x3F	; 63
+ 1c0:	19 f4       	brne	.+6      	; 0x1c8 <main+0x3e>
+			if(notYetSentDirection != 0)
+ 1c2:	11 11       	cpse	r17, r1
+ 1c4:	0f c0       	rjmp	.+30     	; 0x1e4 <main+0x5a>
+ 1c6:	12 c0       	rjmp	.+36     	; 0x1ec <main+0x62>
+				//send 1 if its from room1 to room2 and 2 if its viceversa
+				charToSend = notYetSentDirection;
+				notYetSentDirection = 0;
+			}
+		}
+		else if(charToReceive == 'o')
+ 1c8:	cf 36       	cpi	r28, 0x6F	; 111
+ 1ca:	29 f4       	brne	.+10     	; 0x1d6 <main+0x4c>
+		{
+			//keep the speakers Open
+			PORTB = PORTB | (1<<2);
+ 1cc:	88 b3       	in	r24, 0x18	; 24
+ 1ce:	84 60       	ori	r24, 0x04	; 4
+ 1d0:	88 bb       	out	0x18, r24	; 24
+			charToSend = 'k';
+ 1d2:	db e6       	ldi	r29, 0x6B	; 107
+ 1d4:	0b c0       	rjmp	.+22     	; 0x1ec <main+0x62>
+		}
+		else if(charToReceive == 'c')
+ 1d6:	c3 36       	cpi	r28, 0x63	; 99
+ 1d8:	41 f4       	brne	.+16     	; 0x1ea <main+0x60>
+		{
+			//close the speakers
+			PORTB = PORTB & (~(1<<2));
+ 1da:	88 b3       	in	r24, 0x18	; 24
+ 1dc:	8b 7f       	andi	r24, 0xFB	; 251
+ 1de:	88 bb       	out	0x18, r24	; 24
+			charToSend = 'k';
+ 1e0:	db e6       	ldi	r29, 0x6B	; 107
+ 1e2:	04 c0       	rjmp	.+8      	; 0x1ec <main+0x62>
+		if(charToReceive == '?'){
+			if(notYetSentDirection != 0)
+			//send response to Raspi for things have changed
+			{
+				//send 1 if its from room1 to room2 and 2 if its viceversa
+				charToSend = notYetSentDirection;
+ 1e4:	d1 2f       	mov	r29, r17
+				notYetSentDirection = 0;
+ 1e6:	10 e0       	ldi	r17, 0x00	; 0
+ 1e8:	01 c0       	rjmp	.+2      	; 0x1ec <main+0x62>
+		{
+			//close the speakers
+			PORTB = PORTB & (~(1<<2));
+			charToSend = 'k';
+		}
+		else charToSend = '!';
+ 1ea:	d1 e2       	ldi	r29, 0x21	; 33
+		USART_Transmit(charToSend);
+ 1ec:	8d 2f       	mov	r24, r29
+ 1ee:	0e 94 55 00 	call	0xaa	; 0xaa <USART_Transmit>
+		PORTB = PORTB | (1<<2);
+ 1f2:	88 b3       	in	r24, 0x18	; 24
+ 1f4:	84 60       	ori	r24, 0x04	; 4
+ 1f6:	88 bb       	out	0x18, r24	; 24
+	}
+ 1f8:	d1 cf       	rjmp	.-94     	; 0x19c <main+0x12>
+
+000001fa <_exit>:
+ 1fa:	f8 94       	cli
+
+000001fc <__stop_program>:
+ 1fc:	ff cf       	rjmp	.-2      	; 0x1fc <__stop_program>

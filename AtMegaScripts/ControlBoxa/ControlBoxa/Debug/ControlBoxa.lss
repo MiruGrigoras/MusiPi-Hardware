@@ -89,22 +89,22 @@ int main(void)
 
 	__builtin_avr_delay_cycles(__ticks_dc);
   78:	2f ef       	ldi	r18, 0xFF	; 255
-  7a:	8f e7       	ldi	r24, 0x7F	; 127
-  7c:	93 e4       	ldi	r25, 0x43	; 67
+  7a:	8f ef       	ldi	r24, 0xFF	; 255
+  7c:	96 e8       	ldi	r25, 0x86	; 134
   7e:	21 50       	subi	r18, 0x01	; 1
   80:	80 40       	sbci	r24, 0x00	; 0
   82:	90 40       	sbci	r25, 0x00	; 0
   84:	e1 f7       	brne	.-8      	; 0x7e <main+0x12>
   86:	00 c0       	rjmp	.+0      	; 0x88 <main+0x1c>
   88:	00 00       	nop
-		_delay_ms(2000);
+		_delay_ms(4000);
 		PORTB = PORTB & (~(1<<2));	/* Making PD3 low. This will make LED OFF */
   8a:	88 b3       	in	r24, 0x18	; 24
   8c:	8b 7f       	andi	r24, 0xFB	; 251
   8e:	88 bb       	out	0x18, r24	; 24
   90:	2f ef       	ldi	r18, 0xFF	; 255
-  92:	8f e7       	ldi	r24, 0x7F	; 127
-  94:	93 e4       	ldi	r25, 0x43	; 67
+  92:	8f ef       	ldi	r24, 0xFF	; 255
+  94:	96 e8       	ldi	r25, 0x86	; 134
   96:	21 50       	subi	r18, 0x01	; 1
   98:	80 40       	sbci	r24, 0x00	; 0
   9a:	90 40       	sbci	r25, 0x00	; 0
