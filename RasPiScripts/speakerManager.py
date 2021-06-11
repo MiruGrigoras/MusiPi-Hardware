@@ -130,4 +130,3 @@ while(1):
             cursor.close()
         if conn:
             conn.close()
-        GPIO.output(16, 0)
