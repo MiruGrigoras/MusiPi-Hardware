@@ -92,12 +92,12 @@ while(1):
                 if cursor.rowcount == 0:
                     raise RoomIdNotExisting
                 currentRoom = cursor.fetchone()
-                if currentRoom[0] == 1:
-                    if currentRoom[1] >= 1:
+                if currentRoom[0] == 1: 
+                    if currentRoom[1] >= 1: 
                         #send 'o' for keeping the speaker opened
                         charToSend = 'o'
                         serialConnection.write(charToSend.encode())
-                    else
+                    else:
                         #send 'c' for closing the speaker
                         charToSend = 'c'
                         serialConnection.write(charToSend.encode())
