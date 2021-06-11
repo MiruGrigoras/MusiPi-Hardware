@@ -7,6 +7,7 @@ import RPi.GPIO as GPIO
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(17, GPIO.OUT)
 GPIO.setup(27, GPIO.OUT)
+GPIO.setup(16, GPIO.OUT)
 
 serialConnection = serial.Serial(
     port = '/dev/ttyS0',
@@ -59,8 +60,8 @@ while(1):
         else:
             print('Error: ', err)
     else:
+        GPIO.output(16, 1)
         doorsList = []
-        #while(1):
         cursor = conn.cursor()
         cursor.execute("SELECT * FROM doors;")
         doorsList = list(cursor.fetchall())
@@ -123,9 +124,10 @@ while(1):
             except NonDefinedRoomResponse:
                 print('The room circuit has answered with an undefined response.')
         time.sleep(0.1)            
-           
+        GPIO.output(16, 0)   
     finally:
         if cursor:
             cursor.close()
         if conn:
             conn.close()
+        GPIO.output(16, 0)
